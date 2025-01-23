@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import "../styles/tour.css";
 import TourCard from "./../shared/TourCard";
-// import SearchBar from "./../shared/SearchBar";
+import SearchBar from "./../shared/SearchBar";
 import Newsletter from "./../shared/Newsletter";
 import { Container, Row, Col } from "reactstrap";
 
@@ -29,7 +29,7 @@ const { data: tourCount } = useFetch(`${BASE_URL}/tours/search/getTourCount`);
       <section>
         <Container>
           <Row>
-            {/* <SearchBar /> */}
+            <SearchBar />
           </Row>
         </Container>
       </section>

@@ -86,7 +86,7 @@ const Home = () => {
           <Row>
             <Col lg='12' className="mb-5">
               <Subtitle subtitle={'Explore'}/>
-              <h2 className="featured__tour-title">Nossos descontos</h2>
+              <h2 className="featured__tour-title">Alguns dos nossos descontos</h2>
             </Col>
             <FeaturedTourList />
           </Row>
