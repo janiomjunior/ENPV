@@ -1,60 +1,127 @@
+// import React, { useRef } from "react";
+// import "./search-bar.css";
+// import { Col, Form, FormGroup } from "reactstrap";
+// import { BASE_URL } from "./../utils/config";
+
+// const SearchBar = ({ setSearchResults }) => { // 🔹 Receive setSearchResults as a prop
+//   const titleRef = useRef("");
+
+//   const searchHandler = async (e) => {
+//     e.preventDefault(); // 🔹 Prevent page reload
+
+//     const title = titleRef.current.value;
+//     if (title === "") {
+//       return alert("Please enter a tour name!");
+//     }
+
+//     try {
+//       const res = await fetch(`${BASE_URL}/tours/search/getTourBySearch?title=${title}`);
+//       if (!res.ok) throw new Error("Something went wrong");
+
+//       const result = await res.json();
+//       console.log("Search Result:", result);
+
+//       if (!result.data || result.data.length === 0) {
+//         alert("No tours found!");
+//         return;
+//       }
+
+//       setSearchResults(result.data); // 🔹 Set search results in Tours.jsx
+//     } catch (error) {
+//       alert(error.message);
+//     }
+//   };
+
+//   return (
+//     <Col lg="4">
+//       <div className="search__bar">
+//         <Form className="d-flex align-items-center gap-3" onSubmit={searchHandler}>
+//           <FormGroup className="d-flex gap-3 form__group form__group-fast form__group-wide">
+//             <span>
+//               <i className="ri-search-line"></i>
+//             </span>
+//             <div>
+//               <h6>Descontos</h6>
+//               <input
+//                 type="text"
+//                 placeholder="Digite o nome do desconto"
+//                 ref={titleRef}
+//               />
+//             </div>
+//           </FormGroup>
+//           <button className="search__icon" type="submit">
+//             <i className="ri-search-line"></i>
+//           </button>
+//         </Form>
+//       </div>
+//     </Col>
+//   );
+// };
+
+// export default SearchBar;
+
 import React, { useRef } from "react";
 import "./search-bar.css";
 import { Col, Form, FormGroup } from "reactstrap";
-
 import { BASE_URL } from "./../utils/config";
 
-import { useNavigate } from "react-router-dom";
+const SearchBar = ({ setSearchResults }) => { 
+  const titleRef = useRef("");
 
-const SearchBar = () => {
-  const locationRef = useRef("");
-  const distanceRef = useRef(0);
-  const maxGroupSizeRef = useRef(0);
-  const navigate = useNavigate();
+  const searchHandler = async (e) => {
+    e.preventDefault();
 
-  const searchHandler = async () => {
-    const location = locationRef.current.value;
-    const distance = distanceRef.current.value;
-    const maxGroupSize = maxGroupSizeRef.current.value;
-
-    if (location === "" || distance === "" || maxGroupSize === "") {
-      return alert("All fields are required!");
+    const title = titleRef.current.value.trim(); 
+    if (title === "") {
+      setSearchResults(null); // 🔹 Reset to show all tours
+      return;
     }
 
-    const res = await fetch(
-      `${BASE_URL}/tours/search/getTourBySearch?city=${location}&distance=${distance}&maxGroupSize=${maxGroupSize}`
-    );
+    try {
+      const res = await fetch(`${BASE_URL}/tours/search/getTourBySearch?title=${title}`);
+      if (!res.ok) throw new Error("Something went wrong");
 
-    if (!res.ok) alert("something went wrong");
+      const result = await res.json();
+      console.log("Search Result:", result);
 
-    const result = await res.json();
+      if (!result.data || result.data.length === 0) {
+        alert("No tours found!");
+        return;
+      }
 
-    navigate(
-      `/tours/search?city=${location}&distance=${distance}&maxGroupSize=${maxGroupSize}`,
-      { state: result.data }
-    );
+      setSearchResults(result.data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleInputChange = () => {
+    if (titleRef.current.value.trim() === "") {
+      setSearchResults(null); // 🔹 Reset to show all tours
+    }
   };
 
   return (
     <Col lg="4">
       <div className="search__bar">
-        <Form className="d-flex align-items-center gap-4">
+        <Form className="d-flex align-items-center gap-3" onSubmit={searchHandler}>
           <FormGroup className="d-flex gap-3 form__group form__group-fast form__group-wide">
             <span>
-              <i className="ri-map-pin-line"></i>
+              <i className="ri-search-line"></i>
             </span>
             <div>
-              <h6>Desconto</h6>
+              <h6>Descontos</h6>
               <input
                 type="text"
-                placeholder="Procure pelo nome do desconto"
-                ref={locationRef}
+                placeholder="Digite o nome do desconto"
+                ref={titleRef}
+                onChange={handleInputChange} // 🔹 Detect changes
               />
             </div>
           </FormGroup>
-          <span className="search__icon" type="submit" onClick={searchHandler}>
-            <i class="ri-search-line"></i>
-          </span>
+          <button className="search__icon" type="submit">
+            <i className="ri-search-line"></i>
+          </button>
         </Form>
       </div>
     </Col>
@@ -62,3 +129,4 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
+

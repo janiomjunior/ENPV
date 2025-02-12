@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./../pages/Home";
 import Tours from "./../pages/Tours";
 // import TourDetails from "./../pages/TourDetails";
-// import SearchResultList from "./../pages/SearchResultList";
+ import SearchResultList from "./../pages/SearchResultList";
 // import Register from "./../pages/Register";
 // import Login from "./../pages/Login";
 // import ThankYou from "../pages/ThankYou";
@@ -15,6 +15,7 @@ const Routers = () => {
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="/home" element={<Home />} />
       <Route path="/tours" element={<Tours />} />
+      <Route path="/tours/search" element={<SearchResultList />} />
       {/* <Route path="/tours/:id" element={<TourDetails />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

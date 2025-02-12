@@ -132,32 +132,54 @@ export const getAllTour = async (req, res) => {
   }
 };
 
+// // get tour by search
+// export const getTourBySearch = async (req, res) => {
+//   // here 'i' means case sensitive
+//   const location = new RegExp(req.query.location);
+//   const title = new RegExp(req.query.title);
+//   //const maxGroupSize = parseInt(req.query.maxGroupSize);
+
+//   try {
+//     const tours = await Tour.find({
+//       location,
+//       title
+//     });
+
+//     res.status(200).json({
+//       sucess: true,
+//       message: "Succesful",
+//       data: tours,
+//     });
+//   } catch (e) {
+//     res.status(404).json({
+//       sucess: false,
+//       message: "not found",
+//     });
+//   }
+// };
+
 // get tour by search
 export const getTourBySearch = async (req, res) => {
-  // here 'i' means case sensitive
-  const city = new RegExp(req.query.city, "i");
-  const distance = parseInt(req.query.distance);
-  const maxGroupSize = parseInt(req.query.maxGroupSize);
+  const title = new RegExp(req.query.title, "i"); // Case-insensitive search
 
   try {
-    const tours = await Tour.find({
-      city,
-      distance: { $gte: distance },
-      maxGroupSize: { $gte: maxGroupSize },
-    });
+    const tours = await Tour.find({ title });
 
     res.status(200).json({
-      sucess: true,
-      message: "Succesful",
+      success: true,
+      message: "Successful",
       data: tours,
     });
   } catch (e) {
     res.status(404).json({
-      sucess: false,
-      message: "not found",
+      success: false,
+      message: "Not found",
     });
   }
 };
+
+
+
 
 //get featured tour
 export const getFeaturedTour = async (req, res) => {
