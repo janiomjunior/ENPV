@@ -20,7 +20,7 @@ const corsOptions = {
 }
 
 //DB connection
-mongoose.set("strictQuery", false);
+mongoose.set('debug', true); // Enable Mongoose debug mode
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
